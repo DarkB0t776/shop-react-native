@@ -8,13 +8,14 @@ import Fonts from '../../constants/Fonts';
 
 // Components
 import CartItem from './CartItem';
+import Card from "../UI/Card";
 
 const OrderItem = ({ amount, date, items }) => {
 
   const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <View style={styles.orderItem}>
+    <Card style={styles.orderItem}>
       <View style={styles.summary}>
         <Text style={styles.amount}>${amount.toFixed(2)}</Text>
         <Text style={styles.date}>{date}</Text>
@@ -34,7 +35,7 @@ const OrderItem = ({ amount, date, items }) => {
           />
         ))}
       </View>}
-    </View>
+    </Card>
   )
 }
 
@@ -42,9 +43,6 @@ export default OrderItem
 
 const styles = StyleSheet.create({
   orderItem: {
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
     margin: 20,
     padding: 10,
     alignItems: 'center'

@@ -10,6 +10,9 @@ import {
 // Constants
 import Fonts from '../../constants/Fonts';
 
+// Components
+import Card from "../UI/Card";
+
 const ProductItem = (
   {
     image,
@@ -23,7 +26,7 @@ const ProductItem = (
 ) => {
 
   return (
-    <View style={styles.product}>
+    <Card style={styles.product}>
       <View style={styles.touchable}>
         <TouchableNativeFeedback onPress={onSelect} useForeground>
           <View>
@@ -40,18 +43,14 @@ const ProductItem = (
           </View>
         </TouchableNativeFeedback>
       </View>
-    </View>
+    </Card>
   )
 }
 
 const styles = StyleSheet.create({
   product: {
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
     height: 300,
     margin: 20,
-
   },
   touchable: {
     overflow: 'hidden',

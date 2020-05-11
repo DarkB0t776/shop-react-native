@@ -13,6 +13,7 @@ import Fonts from '../../constants/Fonts';
 
 // Components
 import CartItem from "../../components/shop/CartItem";
+import Card from '../../components/UI/Card'
 
 const CartScreen = ({ navigation }) => {
 
@@ -43,7 +44,7 @@ const CartScreen = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.summary}>
+      <Card style={styles.summary}>
         <Text style={styles.summaryText}>
           Total: <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
         </Text>
@@ -53,7 +54,7 @@ const CartScreen = ({ navigation }) => {
           disabled={cartItems.length === 0}
           onPress={() => dispatch(ordersActions.addOrder(cartItems, cartTotalAmount))}
         />
-      </View>
+      </Card>
       <FlatList
         data={cartItems}
         keyExtractor={item => item.productId}
@@ -82,9 +83,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     padding: 10,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white'
   },
   summaryText: {
     fontFamily: Fonts.openSans.bold,
