@@ -12,6 +12,7 @@ import {
 
 // Constants
 import Colors from '../../constants/Colors';
+import Fonts from '../../constants/Fonts';
 
 const ProductItem = (
   {
@@ -86,10 +87,12 @@ const styles = StyleSheet.create({
     padding: 10
   },
   title: {
+    fontFamily: Fonts.openSans.bold,
     fontSize: 18,
-    marginVertical: 4
+    marginVertical: 4,
   },
   price: {
+    fontFamily: Fonts.openSans.regular,
     fontSize: 14,
     color: '#888'
   },

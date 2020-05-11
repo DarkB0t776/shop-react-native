@@ -6,7 +6,8 @@ import { Platform, SafeAreaView, Button, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Constants
-import Colors from '../constants/Colors';
+import Colors from '../constants/Colors'
+import Fonts from '../constants/Fonts';
 
 // Screens
 import ProductsOverviewScreen, { screenOptions } from '../screens/shop/ProductsOverviewScreen';
@@ -19,10 +20,10 @@ const defaultNavOptions = {
     backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
   },
   headerTitleStyle: {
-    fontFamily: 'open-sans-bold'
+    fontFamily: Fonts.openSans.bold
   },
   headerBackTitleStyle: {
-    fontFamily: 'open-sans'
+    fontFamily: Fonts.openSans.regular
   },
   headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
 };

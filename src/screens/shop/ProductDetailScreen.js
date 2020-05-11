@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 
 // Constants
 import Colors from '../../constants/Colors';
+import Fonts from '../../constants/Fonts';
 
 const ProductDetailScreen = ({ route, navigation }) => {
 
@@ -53,12 +54,14 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   price: {
+    fontFamily: Fonts.openSans.bold,
     fontSize: 20,
     color: '#888',
     textAlign: 'center',
     marginVertical: 20
   },
   description: {
+    fontFamily: Fonts.openSans.regular,
     fontSize: 14,
     textAlign: 'center',
     marginHorizontal: 20
