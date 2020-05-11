@@ -1,6 +1,5 @@
-import { ADD_TO_CART } from '../types/index';
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../types/index';
 import CartItem from '../../models/CartItem';
-import { add } from 'react-native-reanimated';
 
 
 const initialState = {
@@ -34,6 +33,27 @@ export default (state = initialState, action) => {
         },
         totalAmount: state.totalAmount + prodPrice
       }
+    case REMOVE_FROM_CART:
+      const selectedCartItem = state.items[action.payload];
+      const currentQty = state.items[action.payload].quantity;
+      let updatedCartItems;
+      if (currentQty > 1) {
+        const updatedCartItem = new CartItem(
+          selectedCartItem.quantity - 1,
+          selectedCartItem.productPrice,
+          selectedCartItem.productTitle,
+          selectedCartItem.sum - selectedCartItem.productPrice
+        );
+        updatedCartItems = { ...state.items, [action.payload]: updatedCartItem };
+      } else {
+        updatedCartItems = { ...state.items };
+        delete updatedCartItems[action.payload];
+      }
+      return {
+        ...state,
+        items: updatedCartItems,
+        totalAmount: state.totalAmount - selectedCartItem.productPrice
+      };
     default:
       return state;
   }
