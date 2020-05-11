@@ -4,8 +4,9 @@ import { StyleSheet, FlatList, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 // Components
-import ProductItem from '../../components/shop/ProductItem';
+import OrderItem from '../../components/shop/OrderItem';
 import HeaderButton from '../../components/UI/HeaderButton';
+
 
 // Other
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -34,7 +35,11 @@ const OrdersScreen = ({ navigation }) => {
       data={orders}
       renderItem={({ item }) => {
         return (
-          <Text>{item.totalAmount}</Text>
+          <OrderItem
+            amount={item.totalAmount}
+            date={item.convertedDate}
+            items={item.items}
+          />
         );
       }}
     />

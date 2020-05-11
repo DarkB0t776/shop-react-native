@@ -8,7 +8,7 @@ import Fonts from "../../constants/Fonts";
 // Other
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CartItem = ({ quantity, title, amount, onRemove }) => {
+const CartItem = ({ quantity, title, amount, onRemove, deletable }) => {
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
@@ -17,9 +17,9 @@ const CartItem = ({ quantity, title, amount, onRemove }) => {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>${amount.toFixed(2)}</Text>
-        <TouchableOpacity onPress={onRemove} style={styles.deleteButton}>
+        {deletable && <TouchableOpacity onPress={onRemove} style={styles.deleteButton}>
           <Icon name="md-trash" size={23} color="red" />
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </View>
   )
