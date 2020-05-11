@@ -12,12 +12,13 @@ import Fonts from '../constants/Fonts';
 // Screens
 import ProductsOverviewScreen, { screenOptions } from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
+import CartScreen from '../screens/shop/CartScreen';
 
 const ProductsStackNavigator = createStackNavigator();
 
 const defaultNavOptions = {
   headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? Colors.primary : '',
+    backgroundColor: Colors.primary
   },
   headerTitleStyle: {
     fontFamily: Fonts.openSans.bold
@@ -25,7 +26,7 @@ const defaultNavOptions = {
   headerBackTitleStyle: {
     fontFamily: Fonts.openSans.regular
   },
-  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primary
+  headerTintColor: 'white'
 };
 
 export const ProductsNavigator = () => {
@@ -39,6 +40,10 @@ export const ProductsNavigator = () => {
       <ProductsStackNavigator.Screen
         name="ProductDetail"
         component={ProductDetailScreen}
+      />
+      <ProductsStackNavigator.Screen
+        name="Cart"
+        component={CartScreen}
       />
     </ProductsStackNavigator.Navigator>
   );
