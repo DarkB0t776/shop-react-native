@@ -16,12 +16,15 @@ import ProductsOverviewScreen, { screenOptions } from '../screens/shop/ProductsO
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 
 // Other
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const ProductsStackNavigator = createStackNavigator();
 const OrdersStackNavigator = createStackNavigator();
+const AdminStackNavigator = createStackNavigator();
 const ShopDrawerNavigator = createDrawerNavigator();
 
 const defaultNavOptions = {
@@ -68,6 +71,21 @@ export const OrdersNavigator = () => {
   );
 };
 
+export const AdminNavigator = () => {
+  return (
+    <AdminStackNavigator.Navigator screenOptions={defaultNavOptions}>
+      <AdminStackNavigator.Screen
+        name="UserProducts"
+        component={UserProductsScreen}
+      />
+      <AdminStackNavigator.Screen
+        name="EditProduct"
+        component={EditProductScreen}
+      />
+    </AdminStackNavigator.Navigator>
+  );
+};
+
 
 export const ShopNavigator = () => {
   const dispatch = useDispatch();
@@ -105,6 +123,15 @@ export const ShopNavigator = () => {
         options={{
           drawerIcon: props => (
             <Icon name="md-list" size={23} color={props.color} />
+          )
+        }}
+      />
+      <ShopDrawerNavigator.Screen
+        name="Admin"
+        component={AdminNavigator}
+        options={{
+          drawerIcon: props => (
+            <Icon name="md-create" size={23} color={props.color} />
           )
         }}
       />

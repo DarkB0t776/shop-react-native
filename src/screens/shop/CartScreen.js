@@ -16,6 +16,7 @@ import CartItem from "../../components/shop/CartItem";
 
 const CartScreen = ({ navigation }) => {
 
+
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
@@ -44,7 +45,7 @@ const CartScreen = ({ navigation }) => {
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total: <Text style={styles.amount}>${cartTotalAmount.toFixed(2)}</Text>
+          Total: <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
         </Text>
         <Button
           color={Colors.secondary}

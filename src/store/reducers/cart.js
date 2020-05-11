@@ -1,4 +1,9 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, ADD_ORDER } from '../types/index';
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  ADD_ORDER,
+  DELETE_PRODUCT
+} from '../types/index';
 import CartItem from '../../models/CartItem';
 
 
@@ -56,6 +61,18 @@ export default (state = initialState, action) => {
       };
     case ADD_ORDER:
       return initialState;
+    case DELETE_PRODUCT:
+      if (!state.items[action.payload]) {
+        return state;
+      }
+      const updatedItems = { ...state.items };
+      const itemTotal = state.items[action.payload].sum;
+      delete updatedItems[action.payload]
+      return {
+        ...state,
+        items: updatedItems,
+        totalAmount: state.totalAmount - itemTotal
+      };
     default:
       return state;
   }

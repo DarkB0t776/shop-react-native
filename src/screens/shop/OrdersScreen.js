@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import OrderItem from '../../components/shop/OrderItem';
 import HeaderButton from '../../components/UI/HeaderButton';
 
-
 // Other
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
