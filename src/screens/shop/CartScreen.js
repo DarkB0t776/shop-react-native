@@ -1,5 +1,5 @@
 // Core
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,7 +14,7 @@ import Fonts from '../../constants/Fonts';
 // Components
 import CartItem from "../../components/shop/CartItem";
 
-const CartScreen = (props) => {
+const CartScreen = ({ navigation }) => {
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
@@ -33,6 +33,12 @@ const CartScreen = (props) => {
     return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
   });
   const dispatch = useDispatch();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Your Cart'
+    });
+  });
 
   return (
     <View style={styles.screen}>

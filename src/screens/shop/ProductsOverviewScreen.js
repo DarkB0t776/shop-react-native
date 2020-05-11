@@ -2,7 +2,6 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 // Actions
 import * as cartActions from '../../store/actions/cart';
@@ -10,6 +9,9 @@ import * as cartActions from '../../store/actions/cart';
 // Components
 import ProductItem from '../../components/shop/ProductItem';
 import HeaderButton from '../../components/UI/HeaderButton';
+
+// Other
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 const ProductsOverviewScreen = ({ navigation }) => {
   const products = useSelector(state => state.products.availableProducts);
@@ -37,6 +39,15 @@ const ProductsOverviewScreen = ({ navigation }) => {
 export const screenOptions = navData => {
   return {
     headerTitle: 'All Products',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName="md-menu"
+          onPress={() => navData.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
