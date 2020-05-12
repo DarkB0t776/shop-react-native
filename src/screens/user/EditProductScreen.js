@@ -1,16 +1,19 @@
 // Core
-import React, { useLayoutEffect, useCallback, useReducer } from 'react';
+import React, { useLayoutEffect, useState, useCallback, useReducer, useEffect } from 'react';
 import {
   StyleSheet,
   ScrollView,
   View,
   Alert,
+  ActivityIndicator
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Actions
 import * as productsActions from '../../store/actions/products';
 
+// Constants
+import Colors from '../../constants/Colors';
 
 // Components
 import HeaderButton from '../../components/UI/HeaderButton';
@@ -19,8 +22,10 @@ import Input from '../../components/UI/Input';
 // Other
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+// Types
 const FORM_UPDATE = 'FORM_UPDATE';
 
+// Reducers
 const formReducer = (state, action) => {
   switch (action.type) {
     case FORM_UPDATE:
@@ -49,6 +54,9 @@ const formReducer = (state, action) => {
 // Component
 const EditProductScreen = ({ navigation, route }) => {
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const prodId = route.params?.productId;
   const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id === prodId));
 
@@ -69,9 +77,17 @@ const EditProductScreen = ({ navigation, route }) => {
     formIsValid: editedProduct ? true : false
   });
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An error occurred', error, [
+        { text: 'Ok' }
+      ])
+    }
+  }, [error]);
+
   const dispatch = useDispatch();
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback(async () => {
 
     if (!formState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form', [
@@ -80,22 +96,30 @@ const EditProductScreen = ({ navigation, route }) => {
       return;
     }
 
-    if (editedProduct) {
-      dispatch(productsActions.updateProduct(
-        prodId,
-        formState.inputValues.title,
-        formState.inputValues.description,
-        formState.inputValues.imageUrl
-      ));
-    } else {
-      dispatch(productsActions.createProduct(
-        formState.inputValues.title,
-        formState.inputValues.description,
-        formState.inputValues.imageUrl,
-        +formState.inputValues.price
-      ));
+    setError('');
+    setIsLoading(true);
+    try {
+
+      if (editedProduct) {
+        await dispatch(productsActions.updateProduct(
+          prodId,
+          formState.inputValues.title,
+          formState.inputValues.description,
+          formState.inputValues.imageUrl
+        ));
+      } else {
+        await dispatch(productsActions.createProduct(
+          formState.inputValues.title,
+          formState.inputValues.description,
+          formState.inputValues.imageUrl,
+          +formState.inputValues.price
+        ));
+      }
+      navigation.goBack();
+    } catch (e) {
+      setError(e.message);
     }
-    navigation.goBack();
+    setIsLoading(false);
   }, [
     dispatch,
     prodId,
@@ -130,6 +154,14 @@ const EditProductScreen = ({ navigation, route }) => {
       )
     });
   });
+
+
+  if (isLoading) {
+    return <View style={styles.centered}>
+      <ActivityIndicator size="large" color={Colors.primary} />
+    </View>
+  }
+
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -191,4 +223,9 @@ const styles = StyleSheet.create({
   form: {
     margin: 20
   },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })
