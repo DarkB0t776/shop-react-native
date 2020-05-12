@@ -88,6 +88,8 @@ const ProductsOverviewScreen = ({ navigation }) => {
 
   return (
     <FlatList
+      onRefresh={fetchProducts}
+      refreshing={isLoading}
       data={products}
       renderItem={({ item }) => <ProductItem
         image={item.imageUrl}
