@@ -11,8 +11,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // Actions
 import * as productsActions from '../../store/actions/products';
 
-// Constants
-import Fonts from '../../constants/Fonts';
 
 // Components
 import HeaderButton from '../../components/UI/HeaderButton';

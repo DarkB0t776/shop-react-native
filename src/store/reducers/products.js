@@ -1,5 +1,10 @@
 import PRODUCTS from '../../data/products';
-import { DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT } from '../types';
+import {
+  DELETE_PRODUCT,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  FETCH_PRODUCTS
+} from '../types';
 import Product from '../../models/Product';
 
 
@@ -10,9 +15,16 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+
+    case FETCH_PRODUCTS:
+      return {
+        availableProducts: action.payload,
+        userProducts: action.payload.filter(prod => prod.ownerId === 'u1')
+      };
+
     case CREATE_PRODUCT:
       const newProduct = new Product(
-        new Date().toString(),
+        action.payload.id,
         'u1',
         action.payload.title,
         action.payload.imageUrl,

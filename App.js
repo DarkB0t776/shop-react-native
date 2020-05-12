@@ -5,8 +5,9 @@ import {
   View,
   Text,
 } from 'react-native';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
 
 // Reducers
 import rootReducer from './src/store/reducers/index';
@@ -14,7 +15,7 @@ import rootReducer from './src/store/reducers/index';
 // Navigators
 import AppNavigator from './src/navigation/AppNavigator';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(reduxThunk));
 
 
 const App = () => {
