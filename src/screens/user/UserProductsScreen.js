@@ -1,6 +1,6 @@
 // Core
 import React, { useLayoutEffect } from 'react';
-import { FlatList, Button, Alert } from 'react-native';
+import { FlatList, Button, Alert, View, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Actions
@@ -56,6 +56,14 @@ const UserProductsScreen = ({ navigation }) => {
       )
     });
   });
+
+  if (userProducts.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>No Products Found</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList

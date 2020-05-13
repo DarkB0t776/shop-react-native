@@ -9,8 +9,8 @@ import Product from '../../models/Product';
 
 
 const initialState = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter(prod => prod.ownerId === 'u1'),
+  availableProducts: [],
+  userProducts: [],
 };
 
 export default (state = initialState, action) => {
@@ -19,13 +19,13 @@ export default (state = initialState, action) => {
     case FETCH_PRODUCTS:
       return {
         availableProducts: action.payload,
-        userProducts: action.payload.filter(prod => prod.ownerId === 'u1')
+        userProducts: action.userProducts
       };
 
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.payload.id,
-        'u1',
+        action.payload.ownerId,
         action.payload.title,
         action.payload.imageUrl,
         action.payload.description,

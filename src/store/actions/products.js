@@ -7,11 +7,14 @@ import {
 import Product from '../../models/Product';
 
 export const fetchProducts = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
+      const userId = getState().auth.userId;
+
       const response = await fetch('https://shop-e7fc4.firebaseio.com/products.json');
 
       if (!response.ok) {
+        console.log(response);
         throw new Error('Something went wrong!');
       }
 
@@ -22,7 +25,8 @@ export const fetchProducts = () => {
 
       for (const key in data) {
         loadedProducts.push(new Product(
-          key, 'u1',
+          key,
+          data[key].ownerId,
           data[key].title,
           data[key].imageUrl,
           data[key].description,
@@ -30,7 +34,11 @@ export const fetchProducts = () => {
         ))
       }
 
-      dispatch({ type: FETCH_PRODUCTS, payload: loadedProducts });
+      dispatch({
+        type: FETCH_PRODUCTS,
+        payload: loadedProducts,
+        userProducts: loadedProducts.filter(prod => prod.ownerId === userId)
+      });
     } catch (e) {
       throw e;
     }
@@ -38,9 +46,10 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = productId => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     try {
-      const response = await fetch(`https://shop-e7fc4.firebaseio.com/products/${productId}.json`, {
+      const response = await fetch(`https://shop-e7fc4.firebaseio.com/products/${productId}.json?auth=${token}`, {
         method: 'DELETE',
       });
 
@@ -59,14 +68,18 @@ export const deleteProduct = productId => {
 }
 
 export const createProduct = (title, description, imageUrl, price) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const response = await fetch('https://shop-e7fc4.firebaseio.com/products.json', {
+      const token = getState().auth.token;
+      const userId = getState().auth.userId;
+
+      const response = await fetch(`https://shop-e7fc4.firebaseio.com/products.json?auth=${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          ownerId: userId,
           title,
           description,
           imageUrl,
@@ -83,7 +96,8 @@ export const createProduct = (title, description, imageUrl, price) => {
           title,
           description,
           imageUrl,
-          price
+          price,
+          ownerId: userId
         }
       })
     } catch (e) {
@@ -93,9 +107,10 @@ export const createProduct = (title, description, imageUrl, price) => {
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
     try {
-      const response = await fetch(`https://shop-e7fc4.firebaseio.com/products/${id}.json`, {
+      const response = await fetch(`https://shop-e7fc4.firebaseio.com/products/${id}.json?auth=${token}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
